@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="es-GT">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#f7f9fc">
+  <meta name="description" content="Anota y consulta fácilmente tus gastos del hogar por semana y por mes.">
+  <meta name="color-scheme" content="light">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icons/icon-192.png" type="image/png">
+  <link rel="stylesheet" href="./styles.css">
+  <title>Gastos de Casa 🏡</title>
+</head>
+<body>
+  <div class="phone-shell">
+    <header class="topbar">
+      <div class="brand-group">
+        <span class="brand-icon" aria-hidden="true">🏡</span>
+        <div><div class="brand-name">Gastos de Casa</div><div class="brand-subtitle">Todo bajo control ✨</div></div>
+      </div>
+      <button id="settingsBtn" class="circle-btn" type="button" aria-label="Ajustes y respaldo">⚙️</button>
+    </header>
+
+    <main id="mainContent">
+      <section id="homeView" class="view" aria-label="Inicio">
+        <div class="hello-row"><div><p class="eyebrow">TU HOGAR, AL DÍA</p><h1>Hola, ¡qué gusto verte! 👋</h1></div></div>
+        <div class="hero-card">
+          <div class="hero-deco hero-deco-one" aria-hidden="true"></div><div class="hero-deco hero-deco-two" aria-hidden="true"></div>
+          <div class="hero-content">
+            <div class="hero-top"><span class="hero-pill">📅 <span id="homeMonth">Octubre 2026</span></span><span class="hero-mini-icon" aria-hidden="true">💸</span></div>
+            <p class="hero-label">Has gastado este mes</p>
+            <div id="monthTotal" class="hero-total" aria-live="polite">Q 0.00</div>
+            <div class="hero-bottom"><span class="live-dot"></span><span>🟢 Mes en curso</span><span class="hero-bottom-spacer"></span><span id="monthTransactions">0 gastos</span></div>
+          </div>
+        </div>
+
+        <button id="addBtn" class="primary-add" type="button"><span class="primary-add-icon" aria-hidden="true">＋</span><span>Anotar un gasto</span><span class="primary-add-arrow" aria-hidden="true">→</span></button>
+
+        <div class="mini-grid">
+          <div class="mini-card"><span class="mini-emoji" aria-hidden="true">☀️</span><div class="mini-detail"><span class="mini-label">Gastado hoy</span><strong id="todayTotal" class="mini-amount">Q 0.00</strong></div></div>
+          <div class="mini-card"><span class="mini-emoji" aria-hidden="true">📅</span><div class="mini-detail"><span class="mini-label">Esta semana</span><strong id="weekTotal" class="mini-amount">Q 0.00</strong></div></div>
+        </div>
+
+        <section class="panel" aria-labelledby="breakdownHeading">
+          <div class="section-title-row"><div><span class="section-kicker">RESUMEN DEL MES</span><h2 id="breakdownHeading">¿En qué gastaste? 🧾</h2></div></div>
+          <div id="breakdownList" class="breakdown-list"></div>
+          <div id="breakdownEmpty" class="empty-mini" hidden><span class="empty-illustration">🪴</span><strong>¡Todo listo para empezar!</strong><span>Cuando anotes gastos, los verás aquí.</span></div>
+        </section>
+
+        <section class="panel recent-panel" aria-labelledby="recentHeading">
+          <div class="section-title-row"><div><span class="section-kicker">MOVIMIENTOS</span><h2 id="recentHeading">Gastos recientes 🧺</h2></div><button id="seeAllBtn" class="subtle-link" type="button">Ver todos →</button></div>
+          <div id="recentList" class="expense-list"></div>
+          <div id="recentEmpty" class="empty-mini" hidden><span class="empty-illustration">🧾</span><strong>Todavía no hay gastos.</strong><span>Toca «Anotar un gasto» para comenzar.</span></div>
+        </section>
+      </section>
+
+      <section id="historyView" class="view" aria-label="Historial de gastos" hidden>
+        <div class="history-intro"><span class="eyebrow">TUS MOVIMIENTOS</span><h1>Tu historial 📚</h1><p>Mira cuánto gastaste en cualquier semana o mes.</p></div>
+        <div class="period-tabs" role="group" aria-label="Cómo quieres ver los gastos">
+          <button id="weeklyTab" type="button" class="period-tab" aria-pressed="false">📆 Semana</button>
+          <button id="monthlyTab" type="button" class="period-tab active" aria-pressed="true">🗓️ Mes</button>
+        </div>
+        <div class="period-nav"><button type="button" id="prevPeriod" class="nav-arrow" aria-label="Periodo anterior">‹</button><div class="period-label-stack"><strong id="periodLabel">Octubre 2026</strong><span id="periodRange">Mes actual</span></div><button type="button" id="nextPeriod" class="nav-arrow" aria-label="Periodo siguiente">›</button></div>
+        <div id="historyStatus" class="status-line" hidden></div>
+        <div class="history-summary"><div class="history-summary-top"><span>💰 Total gastado</span><span id="historyCount" class="history-count">0 gastos</span></div><div id="historyTotal" class="history-total">Q 0.00</div></div>
+        <div class="history-filter"><label for="categoryFilter">🏷️ Mostrar</label><select id="categoryFilter"><option value="all">Todos los gastos</option></select></div>
+        <section class="history-list-panel"><div class="section-title-row"><h2 id="historyListHeading">🧾 Gastos del periodo</h2></div><div id="historyList" class="expense-list"></div><div id="historyEmpty" class="empty-mini" hidden><span class="empty-illustration">🌿</span><strong>No hay gastos aquí</strong><span>Prueba otra semana, otro mes o categoría.</span></div></section>
+        <p class="history-help">🔒 Los meses pasados quedan cerrados automáticamente. Puedes consultarlos cuando quieras.</p>
+      </section>
+    </main>
+
+    <nav class="bottom-nav" aria-label="Menú principal">
+      <button id="homeNav" class="bottom-nav-item selected" type="button" aria-current="page"><span class="bottom-nav-emoji">🏠</span><span>Inicio</span></button>
+      <button id="historyNav" class="bottom-nav-item" type="button"><span class="bottom-nav-emoji">📚</span><span>Historial</span></button>
+    </nav>
+  </div>
+
+  <dialog id="expenseDialog" class="bottom-sheet" aria-labelledby="expenseTitle">
+    <form id="expenseForm" novalidate>
+      <div class="sheet-grip" aria-hidden="true"></div>
+      <div class="sheet-heading"><h2 id="expenseTitle">➕ Nuevo gasto</h2><button id="closeExpense" type="button" class="close-sheet" aria-label="Cerrar">×</button></div>
+      <label for="amount" class="field-label">💰 ¿Cuánto gastaste?</label>
+      <div class="amount-field"><span>Q</span><input id="amount" name="amount" type="text" inputmode="decimal" maxlength="14" autocomplete="off" placeholder="0.00" required></div>
+      <span id="categoryLegend" class="field-label">🏷️ ¿En qué fue?</span>
+      <div id="categoryPicker" class="category-picker" role="group" aria-labelledby="categoryLegend"></div>
+      <label for="note" class="field-label">✏️ ¿Qué compraste? <small>(opcional)</small></label>
+      <input id="note" class="text-field" maxlength="90" autocomplete="off" placeholder="Ej. Pan y leche">
+      <label for="date" class="field-label">📅 Fecha del gasto</label>
+      <input id="date" class="text-field" type="date" required>
+      <p id="formError" class="form-error" role="alert" hidden></p>
+      <button id="saveBtn" type="submit" class="save-button">✅ Guardar gasto</button>
+      <button id="deleteBtn" type="button" class="delete-button" hidden>🗑️ Eliminar este gasto</button>
+    </form>
+  </dialog>
+
+  <dialog id="detailDialog" class="bottom-sheet" aria-labelledby="detailTitle"><div class="detail-content"><div class="sheet-grip" aria-hidden="true"></div><div class="sheet-heading"><h2 id="detailTitle">🧾 Detalle del gasto</h2><button id="closeDetail" type="button" class="close-sheet" aria-label="Cerrar">×</button></div><div id="detailBody"></div><p class="closed-hint">🔒 Este mes está cerrado. El gasto se conserva como parte de tu historial.</p><button id="detailCloseBtn" class="save-button" type="button">Entendido 👍</button></div></dialog>
+
+  <dialog id="settingsDialog" class="bottom-sheet" aria-labelledby="settingsTitle"><div class="settings-content"><div class="sheet-grip" aria-hidden="true"></div><div class="sheet-heading"><h2 id="settingsTitle">⚙️ Opciones</h2><button id="closeSettings" type="button" class="close-sheet" aria-label="Cerrar">×</button></div><p class="settings-helper">Tus gastos se guardan en este Samsung. Puedes hacer un respaldo para no perderlos.</p><button id="backupBtn" class="settings-action" type="button"><span class="setting-icon">💾</span><span><strong>Guardar respaldo</strong><small>Guarda una copia de todos tus gastos</small></span><span class="setting-chevron">›</span></button><button id="restoreBtn" class="settings-action" type="button"><span class="setting-icon">📥</span><span><strong>Recuperar respaldo</strong><small>Trae tus datos desde una copia anterior</small></span><span class="setting-chevron">›</span></button><button id="csvBtn" class="settings-action" type="button"><span class="setting-icon">📊</span><span><strong>Exportar para Excel</strong><small>Descarga un archivo con todos tus gastos</small></span><span class="setting-chevron">›</span></button><input id="restoreFile" type="file" accept=".json,application/json" hidden><div class="settings-tip">💡 Consejo: guarda un respaldo cada mes en tus archivos o Google Drive.</div></div></dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="./app.js" defer></script>
+</body>
+</html>
